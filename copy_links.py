@@ -31,10 +31,12 @@ def copy_dotfiles(force: bool):
     for (dirpath, dirnames, filenames) in os.walk(src):
         # creates folders if they're missing since we only symlink files
         for dirname in dirnames:
-            # TODO:: handle there being a file instead of a folder
             dst_dir = os.path.join(dirpath.replace(src, dst), dirname)
             if not os.path.exists(dst_dir):
                 os.makedirs(dst_dir)
+            elif not os.path.isdir(dst_dir):
+                print("Non-dir path at: {dst_dir}, requires manual audit")
+                sys.exit(1)
 
         for filename in filenames:
             if filename in blacklist:

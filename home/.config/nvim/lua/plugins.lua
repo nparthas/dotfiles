@@ -73,7 +73,7 @@ require('rust-tools').setup({
 
 require('gitsigns').setup()
 
-require('lspconfig').pyright.setup{}
+require('lspconfig').pyright.setup({})
 require('yapf').setup {
     style = os.getenv("HOME") .. '/.yapfrc',
 }
