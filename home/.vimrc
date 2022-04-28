@@ -47,3 +47,8 @@ nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <leader>p :Telescope find_files<CR>
 nnoremap <leader>f :Telescope live_grep<CR>
 
+au FileType qf call AdjustWindowHeight(3, 10)
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+

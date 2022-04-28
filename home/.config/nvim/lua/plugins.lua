@@ -99,9 +99,18 @@ require('lspconfig').clangd.setup({})
 
 -- requires `brew intsall brew install ripgrep`
 -- requires `brew install fd`
+local actions = require "telescope.actions"
 require('telescope').setup({
   defaults = {
     file_ignore_patterns = { "/.git/" },
+    mappings = {
+      i = {
+        ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+      },
+      n = {
+        ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+      },
+    },
   },
   pickers = {
     find_files = {
