@@ -42,3 +42,8 @@ let g:rustfmt_autosave = 1
 nnoremap <silent> g[ <cmd>lua vim.diagnostic.goto_prev({float=false})<CR>
 nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next({float=false})<CR>
 
+
+nnoremap <C-p> :Telescope find_files<CR>
+nnoremap <leader>p :Telescope find_files<CR>
+nnoremap <leader>f :Telescope live_grep<CR>
+
