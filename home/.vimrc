@@ -19,6 +19,7 @@ set signcolumn=yes
 set mouse=a
 set hidden
 set wildcharm=<C-z>
+set cursorline
 
 augroup numbertoggle
     autocmd!
