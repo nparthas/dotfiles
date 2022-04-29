@@ -44,6 +44,7 @@ nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next({float=false})<CR>
 
 
 nnoremap <C-p> :Telescope find_files<CR>
+nnoremap <C-f> :Telescope live_grep<CR>
 nnoremap <leader>p :Telescope find_files<CR>
 nnoremap <leader>f :Telescope live_grep<CR>
 
