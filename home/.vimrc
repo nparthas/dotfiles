@@ -18,6 +18,7 @@ set ttyfast
 set signcolumn=yes
 set mouse=a
 set hidden
+set wildcharm=<C-z>
 
 augroup numbertoggle
     autocmd!
@@ -42,6 +43,7 @@ let g:rustfmt_autosave = 1
 nnoremap <silent> g[ <cmd>lua vim.diagnostic.goto_prev({float=false})<CR>
 nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next({float=false})<CR>
 
+nnoremap <leader><Tab> :buffer<Space><C-z>
 
 nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <C-f> :Telescope live_grep<CR>
