@@ -48,8 +48,14 @@ nnoremap <leader><Tab> :buffer<Space><C-z>
 
 nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <C-f> :Telescope live_grep<CR>
+nnoremap <C-b> :Telescope buffers<CR>
 nnoremap <leader>p :Telescope find_files<CR>
 nnoremap <leader>f :Telescope live_grep<CR>
+nnoremap <leader>b :Telescope buffers<CR>
+nnoremap <leader>m :Telescope marks<CR>
+nnoremap <leader>r :Telescope registers<CR>
+
+" comment hotkeys
 
 au FileType qf call AdjustWindowHeight(3, 10)
 function! AdjustWindowHeight(minheight, maxheight)

@@ -56,7 +56,7 @@ packer.startup(function()
 )
 
 vim.g.vscode_style = "dark"
-vim.cmd[[colorscheme vscode]]
+vim.cmd[[colorscheme nightfox]]
 
 require('marks').setup {
     default_mappings = true,
