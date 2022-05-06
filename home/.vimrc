@@ -55,6 +55,9 @@ nnoremap <leader>b :Telescope buffers<CR>
 nnoremap <leader>m :Telescope marks<CR>
 nnoremap <leader>r :Telescope registers<CR>
 
+nnoremap <leader>i :lua vim.lsp.buf.incoming_calls()<CR>
+nnoremap <leader>o :lua vim.lsp.buf.outgoing_calls()<CR>
+
 " comment hotkeys
 
 au FileType qf call AdjustWindowHeight(3, 10)

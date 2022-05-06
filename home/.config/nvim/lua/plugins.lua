@@ -52,6 +52,15 @@ packer.startup(function()
     run = ':TSUpdate'
   }
 
+  --[[
+  use {
+    'ldelossa/litee-calltree.nvim',
+    requires = {
+       {'ldelossa/litee.nvim'},
+    }
+  }
+  --]]
+
   end
 )
 
@@ -149,3 +158,8 @@ require('nvim-treesitter.configs').setup({
     additional_vim_regex_highlighting = false,
   },
 })
+
+--[[ Too buggy to use
+require('litee.lib').setup({})
+require('litee.calltree').setup({})
+----]]
