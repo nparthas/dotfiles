@@ -113,7 +113,7 @@ require('lspconfig').clangd.setup({})
 local actions = require "telescope.actions"
 require('telescope').setup({
   defaults = {
-    file_ignore_patterns = { "/.git/" },
+    file_ignore_patterns = { "/.git/", "^.git/", "^.clangd/", "/.clangd/" },
     mappings = {
       i = {
         ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
