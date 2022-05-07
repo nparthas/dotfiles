@@ -52,6 +52,8 @@ packer.startup(function()
     run = ':TSUpdate'
   }
 
+  use 'gbrlsnchs/telescope-lsp-handlers.nvim'
+
   --[[
   use {
     'ldelossa/litee-calltree.nvim',
@@ -133,11 +135,24 @@ require('telescope').setup({
       override_generic_sorter = true,
       override_file_sorter = true,
       case_mode = "smart_case",
-    }
+    },
+    lsp_handlers = {
+      disable = {
+        ['textDocument/declaration'] = true,
+        ['textDocument/definition'] = true,
+        ['textDocument/implementation'] = true,
+        ['textDocument/typeDefinition'] = true,
+        ['textDocument/references'] = true,
+        ['textDocument/documentSymbol'] = true,
+        ['workspace/symbol'] = true,
+        ['textDocument/codeAction'] = true,
+      },
+    },
   }
 })
 
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('lsp_handlers')
 
 require('nvim-treesitter.configs').setup({
   -- A list of parser names, or "all"
