@@ -49,14 +49,14 @@ nnoremap <leader><Tab> :buffer<Space><C-z>
 nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <C-f> :Telescope live_grep<CR>
 nnoremap <C-b> :Telescope buffers<CR>
-nnoremap <leader>p :Telescope find_files<CR>
-nnoremap <leader>f :Telescope live_grep<CR>
-nnoremap <leader>b :Telescope buffers<CR>
 nnoremap <leader>m :Telescope marks<CR>
 nnoremap <leader>r :Telescope registers<CR>
 
 nnoremap <leader>i :lua vim.lsp.buf.incoming_calls()<CR>
 nnoremap <leader>o :lua vim.lsp.buf.outgoing_calls()<CR>
+
+nnoremap <leader>f  :lua vim.lsp.buf.formatting()<CR>
+nnoremap ƒ          :lua vim.lsp.buf.format_selection()<CR>
 
 " comment hotkeys
 
