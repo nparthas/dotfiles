@@ -54,6 +54,10 @@ nnoremap <leader>r :Telescope registers<CR>
 
 nnoremap <leader>i :lua vim.lsp.buf.incoming_calls()<CR>
 nnoremap <leader>o :lua vim.lsp.buf.outgoing_calls()<CR>
+nnoremap <leader>c :lua vim.lsp.buf.declaration()<CR>
+nnoremap <leader>n :lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>h :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>s :lua vim.lsp.buf.signature_help()<CR>
 
 nnoremap <leader>f  :lua vim.lsp.buf.formatting()<CR>
 nnoremap ƒ          :lua vim.lsp.buf.format_selection()<CR>
