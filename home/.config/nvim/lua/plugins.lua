@@ -29,6 +29,7 @@ packer.startup(function()
     use 'chentoast/marks.nvim'
     use 'tversteeg/registers.nvim'
     use 'numToStr/Comment.nvim'
+    use 'ntpeters/vim-better-whitespace'
     use 'Mofiqul/vscode.nvim'
     use {
         'lewis6991/gitsigns.nvim',
