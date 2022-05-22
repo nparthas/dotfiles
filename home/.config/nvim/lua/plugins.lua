@@ -3,178 +3,209 @@ local execute = vim.api.nvim_command
 local fn = vim.fn
 
 -- ensure that packer is installed
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+    execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
     execute 'packadd packer.nvim'
 end
 
 vim.cmd('packadd packer.nvim')
 
-local packer = require'packer'
-local util = require'packer.util'
+local packer = require 'packer'
+local util = require 'packer.util'
 packer.init({
-  package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
+    package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
 })
 
 --- startup and add configure plugins
 packer.startup(function()
-  local use = use
+    local use = use
 
-  -- checkout null-ls for other langs
-  use 'wbthomason/packer.nvim'
-  use 'neovim/nvim-lspconfig'
-  use 'EdenEast/nightfox.nvim'
-  use 'chentau/marks.nvim'
-  use 'Mofiqul/vscode.nvim'
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    tag = 'release'
-  }
-  use 'rust-lang/rust.vim'
-  use 'simrat39/rust-tools.nvim'
-  use {
-    'amirali/yapf.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-  }
-
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-       {'nvim-lua/plenary.nvim'},
-       {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+    -- checkout null-ls for other langs
+    use 'wbthomason/packer.nvim'
+    use 'neovim/nvim-lspconfig'
+    use 'williamboman/nvim-lsp-installer'
+    use 'EdenEast/nightfox.nvim'
+    use 'chentoast/marks.nvim'
+    use 'tversteeg/registers.nvim'
+    use 'numToStr/Comment.nvim'
+    use 'Mofiqul/vscode.nvim'
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = { 'nvim-lua/plenary.nvim' },
+        tag = 'release'
     }
-  }
-
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-
-  use 'gbrlsnchs/telescope-lsp-handlers.nvim'
-
-  --[[
-  use {
-    'ldelossa/litee-calltree.nvim',
-    requires = {
-       {'ldelossa/litee.nvim'},
+    use 'rust-lang/rust.vim'
+    use {
+        'simrat39/rust-tools.nvim',
+        branch = 'modularize_and_inlay_rewrite',
     }
-  }
-  --]]
+    use {
+        'amirali/yapf.nvim',
+        requires = { 'nvim-lua/plenary.nvim' },
+    }
 
-  end
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+        }
+    }
+
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate'
+    }
+
+    use 'gbrlsnchs/telescope-lsp-handlers.nvim'
+
+    use 'j-hui/fidget.nvim'
+
+end
 )
 
 vim.g.vscode_style = "dark"
-vim.cmd[[colorscheme nightfox]]
+vim.cmd [[colorscheme nightfox]]
 
+require('gitsigns').setup()
 require('marks').setup {
     default_mappings = true,
     signs = true,
     mappings = {}
 }
 
-require('lspconfig').rust_analyzer.setup({})
-require('rust-tools').setup({
-    tools = {
-        inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "type::",
-            highlight = "TSStructure",
-        },
+--require('registers').setup()
+require('Comment').setup()
+vim.keymap.set('n', '<C-/>', 'gc')
+vim.keymap.set('x', '<C-/>', 'gc')
+
+require('nvim-lsp-installer').setup({
+    ensure_installed = {
+        "rust_analyzer",
+        "pyright",
+        "clangd",
+        "sumneko_lua",
     },
-    server = {
-        settings = {
-            ["rust-analyzer"] = {
-                checkOnSave = { command = "clippy" },
-                diagnostics = { disabled = { "inactive-code" } }
-            }
+    ui = {
+        icons = {
+            server_installed = "✓",
+            server_pending = "➜",
+            server_uninstalled = "✗"
         }
-    },
+    }
 })
 
-require('gitsigns').setup()
+for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) do
+    if server == 'rust_analyzer' then
+        require('rust-tools').setup({
+            tools = {
+                inlay_hints = {
+                    show_parameter_hints = false,
+                    parameter_hints_prefix = "",
+                    other_hints_prefix = "type::",
+                    highlight = "TSStructure",
+                },
+            },
+            server = {
+                settings = {
+                    ["rust-analyzer"] = {
+                        checkOnSave = { command = "clippy" },
+                        diagnostics = { disabled = { "inactive-code" } }
+                    }
+                }
+            },
+        })
+    else
+        require('lspconfig')[server.name].setup({})
+    end
+end
+
+--require('lspconfig').rust_analyzer.setup({})
+--require('rust-tools').setup()
 
 -- requires `npm install --global pyright`
-require('lspconfig').pyright.setup({})
+--require('lspconfig').pyright.setup({})
+
+-- requires newer clang or maunal clangd install
+--require('lspconfig').clangd.setup({})
+
+
+require("fidget").setup {}
+
+
 
 -- requires yapf on path
 require('yapf').setup({
     style = os.getenv("HOME") .. '/.yapfrc',
 })
 
--- requires newer clang or maunal clangd install
-require('lspconfig').clangd.setup({})
 
 -- requires `brew intsall brew install ripgrep`
 -- requires `brew install fd`
 local actions = require "telescope.actions"
 require('telescope').setup({
-  defaults = {
-    file_ignore_patterns = { "/.git/", "^.git/", "^.clangd/", "/.clangd/" },
-    mappings = {
-      i = {
-        ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
-      },
-      n = {
-        ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
-      },
+    defaults = {
+        file_ignore_patterns = { "/.git/", "^.git/", "^.clangd/", "/.clangd/" },
+        mappings = {
+            i = {
+                ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            },
+            n = {
+                ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            },
+        },
     },
-  },
-  pickers = {
-    find_files = {
-      hidden = true,
-      follow = true,
+    pickers = {
+        find_files = {
+            hidden = true,
+            follow = true,
+        },
+        buffers = {
+            previewer = false
+        }
     },
-  },
-  extensions = {
-    fzf = {
-      fuzzy = true,
-      override_generic_sorter = true,
-      override_file_sorter = true,
-      case_mode = "smart_case",
-    },
-    lsp_handlers = {
-      disable = {
-        ['textDocument/declaration'] = true,
-        ['textDocument/definition'] = true,
-        ['textDocument/implementation'] = true,
-        ['textDocument/typeDefinition'] = true,
-        ['textDocument/references'] = true,
-        ['textDocument/documentSymbol'] = true,
-        ['workspace/symbol'] = true,
-        ['textDocument/codeAction'] = true,
-      },
-    },
-  }
+    extensions = {
+        fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+        },
+        lsp_handlers = {
+            disable = {
+                ['textDocument/declaration'] = true,
+                ['textDocument/definition'] = true,
+                ['textDocument/implementation'] = true,
+                ['textDocument/typeDefinition'] = true,
+                ['textDocument/references'] = true,
+                ['textDocument/documentSymbol'] = true,
+                ['workspace/symbol'] = true,
+                ['textDocument/codeAction'] = true,
+            },
+        },
+    }
 })
 
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('lsp_handlers')
 
 require('nvim-treesitter.configs').setup({
-  -- A list of parser names, or "all"
-  ensure_installed = { "c", "lua", "rust" },
+    -- A list of parser names, or "all"
+    ensure_installed = { "c", "lua", "rust" },
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
 
-  highlight = {
-    enable = true,
-    -- NOTE: these are the names of the parsers and not the filetype.
-    disable = { "rust" },
+    highlight = {
+        enable = true,
+        -- NOTE: these are the names of the parsers and not the filetype.
+        disable = { "rust" },
 
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- Using this option may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = false,
+    },
 })
-
---[[ Too buggy to use
-require('litee.lib').setup({})
-require('litee.calltree').setup({})
-----]]

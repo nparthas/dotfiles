@@ -38,7 +38,7 @@ inoremap jk <esc>
 nnoremap <leader>w :w<CR>
 
 nnoremap <leader>d :w !diff % -<CR>
-nnoremap <leader>g :w !git diff --no-index -- % -<CR>
+nnoremap <leader>g :!git diff %<CR>
 
 tnoremap <esc> <C-\><C-N>
 
@@ -53,7 +53,6 @@ nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <C-f> :Telescope live_grep<CR>
 nnoremap <C-b> :Telescope buffers<CR>
 nnoremap <leader>m :Telescope marks<CR>
-nnoremap <leader>r :Telescope registers<CR>
 
 nnoremap <leader>i :lua vim.lsp.buf.incoming_calls()<CR>
 nnoremap <leader>o :lua vim.lsp.buf.outgoing_calls()<CR>
@@ -62,10 +61,8 @@ nnoremap <leader>n :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>h :lua vim.lsp.buf.hover()<CR>
 nnoremap <leader>s :lua vim.lsp.buf.signature_help()<CR>
 
-nnoremap <leader>f  :lua vim.lsp.buf.formatting()<CR>
-nnoremap ƒ          :lua vim.lsp.buf.format_selection()<CR>
-
-" comment hotkeys
+nnoremap <leader>f :lua vim.lsp.buf.formatting()<CR>
+nnoremap ƒ         :lua vim.lsp.buf.format_selection()<CR>
 
 au FileType qf call AdjustWindowHeight(3, 10)
 function! AdjustWindowHeight(minheight, maxheight)
@@ -110,6 +107,7 @@ function! MonkeyTerminalOpen()
      let s:monkey_terminal_window = win_getid()
     endif
   endif
+  startinsert
 endfunction
 
 function! MonkeyTerminalToggle()
@@ -145,8 +143,6 @@ endfunction
 " With this maps you can now toggle the terminal
 nnoremap <F7> :call MonkeyTerminalToggle()<cr>
 tnoremap <F7> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
-nnoremap <leader><SPACE> :call MonkeyTerminalToggle()<cr>
-" tnoremap <leader><SPACE> :call MonkeyTerminalToggle()<cr>
 nnoremap <C-n> :call MonkeyTerminalToggle()<cr>
 tnoremap <C-n> <C-\><C-n>:call MonkeyTerminalToggle()<cr>
 
