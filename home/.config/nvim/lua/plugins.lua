@@ -63,6 +63,14 @@ packer.startup(function()
 
     use 'j-hui/fidget.nvim'
 
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/cmp-vsnip'
+    use 'hrsh7th/vim-vsnip'
+
 end
 )
 
@@ -122,25 +130,12 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
     end
 end
 
---require('lspconfig').rust_analyzer.setup({})
---require('rust-tools').setup()
-
--- requires `npm install --global pyright`
---require('lspconfig').pyright.setup({})
-
--- requires newer clang or maunal clangd install
---require('lspconfig').clangd.setup({})
-
-
 require("fidget").setup {}
-
-
 
 -- requires yapf on path
 require('yapf').setup({
     style = os.getenv("HOME") .. '/.yapfrc',
 })
-
 
 -- requires `brew intsall brew install ripgrep`
 -- requires `brew install fd`
@@ -210,3 +205,65 @@ require('nvim-treesitter.configs').setup({
         additional_vim_regex_highlighting = false,
     },
 })
+
+local cmp = require 'cmp'
+vim.opt.pumheight = 1
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
+    },
+    window = {
+        documentation = {
+            max_height = 0,
+        }
+    },
+    mapping = cmp.mapping.preset.insert({
+        --['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        --['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+    }, {
+        { name = 'buffer' },
+    }),
+    experimental = {
+        ghost_text = true
+    },
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    })
+})
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+--[[require('lspconfig')['rust_analyzer'].setup {
+    capabilities = capabilities
+}
+--]]
+for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) do
+    require('lspconfig')[server.name].setup({
+        capabilites = capabilities
+    })
+end
