@@ -13,13 +13,17 @@ set hlsearch
 set title
 set foldenable
 set splitbelow splitright
-set clipboard=unnamedplus
 set ttyfast
 set signcolumn=yes
 set mouse=a
 set hidden
 set wildcharm=<C-z>
 set cursorline
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
 
 augroup numbertoggle
     autocmd!
