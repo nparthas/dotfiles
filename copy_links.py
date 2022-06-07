@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+""" Script to interactively copy over dotfiles kept in this repo"""
 
 import argparse
 import filecmp
@@ -10,6 +11,7 @@ blacklist = [".DS_Store"]
 
 
 def prefill_response(prompt, prefill):
+    """ Adds the last response when prompting to copy files over"""
 
     def hook():
         readline.insert_text(prefill)
@@ -21,13 +23,48 @@ def prefill_response(prompt, prefill):
     return result.strip().lower()
 
 
+def do_copy(full_src: str, full_dst: str, force: bool):
+    """ logic for copying an individual file"""
+    # if we've already linked return early
+    if os.path.islink(full_dst) and os.readlink(full_dst) == full_src:
+        print(f'{full_dst} already linked, skipping...')
+        return
+
+    link = force or not os.path.exists(full_dst)
+    should_copy = ""
+    if os.path.exists(full_dst) and not force:
+        differs = ""
+        if filecmp.cmp(full_src, full_dst):
+            differs = " (files match)"
+        prompt = f"Path {full_dst} exists{differs}, overwrite [y/N\u0332/diff]? "
+        opts = ["", "y", "yes", "n", "no"]
+
+        while (should_copy := prefill_response(prompt, should_copy)) not in opts:
+            if should_copy == "diff":
+                os.system(f"diff -bur {full_src} {full_dst} | less")
+                # remove the last line and remove prefill if we do a diff
+                sys.stdout.write("\x1b[1A")
+                sys.stdout.write("\x1b[2K")
+                should_copy = ""
+
+        link = should_copy in ["y", "yes"]
+
+    if link:
+        print(f"...linking {full_src} --> {full_dst}")
+        if os.path.exists(full_dst):
+            print(full_dst)
+            os.remove(full_dst)
+
+        os.symlink(full_src, full_dst)
+
+
 def copy_dotfiles(force: bool):
+    """copy all files from the 'home' directory to  ~/"""
     src = os.path.abspath("home")
     dst = os.path.expanduser("~")
 
     print("Creating symlinks...")
     # save the last response for enter spamming choices
-    should_copy = ""
     for (dirpath, dirnames, filenames) in os.walk(src):
         # creates folders if they're missing since we only symlink files
         for dirname in dirnames:
@@ -44,31 +81,7 @@ def copy_dotfiles(force: bool):
 
             full_src = os.path.join(dirpath, filename)
             full_dst = os.path.join(dirpath.replace(src, dst), filename)
-            link = force or not os.path.exists(full_dst)
-            if os.path.exists(full_dst) and not force:
-                differs = ""
-                if filecmp.cmp(full_src, full_dst):
-                    differs = " (files match)"
-                prompt = f"Path {full_dst} exists{differs}, overwrite [y/N\u0332/diff]? "
-                opts = ["", "y", "yes", "n", "no"]
-
-                while (should_copy := prefill_response(prompt, should_copy)) not in opts:
-                    if should_copy == "diff":
-                        os.system(f"diff -bur {full_src} {full_dst} | less")
-                        # remove the last line and remove prefill if we do a diff
-                        sys.stdout.write("\x1b[1A")
-                        sys.stdout.write("\x1b[2K")
-                        should_copy = ""
-
-                link = should_copy in ["y", "yes"]
-
-            if link:
-                print(f"...linking {full_src} --> {full_dst}")
-                if os.path.exists(full_dst):
-                    print(full_dst)
-                    os.remove(full_dst)
-
-                os.symlink(full_src, full_dst)
+            do_copy(full_src, full_dst, force)
 
 
 if __name__ == "__main__":

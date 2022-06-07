@@ -25,6 +25,10 @@ packer.startup(function()
     use 'wbthomason/packer.nvim'
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
+    use {
+        'jose-elias-alvarez/null-ls.nvim',
+        requires = { 'nvim-lua/plenary.nvim' },
+    }
     use 'EdenEast/nightfox.nvim'
     use 'chentoast/marks.nvim'
     use 'tversteeg/registers.nvim'
@@ -88,6 +92,16 @@ require('marks').setup {
 require('Comment').setup()
 vim.keymap.set('n', '<C-/>', 'gc')
 vim.keymap.set('x', '<C-/>', 'gc')
+
+-- TODO:: install pylint
+-- requires pylint on path
+local nls = require('null-ls')
+nls.setup({
+    debounce = 150,
+    sources = {
+        nls.builtins.diagnostics.pylint,
+    },
+})
 
 require('nvim-lsp-installer').setup({
     ensure_installed = {
