@@ -21,7 +21,6 @@ packer.init({
 packer.startup(function()
     local use = use
 
-    -- checkout null-ls for other langs
     use 'wbthomason/packer.nvim'
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
@@ -31,10 +30,8 @@ packer.startup(function()
     }
     use 'EdenEast/nightfox.nvim'
     use 'chentoast/marks.nvim'
-    use 'tversteeg/registers.nvim'
-    use 'numToStr/Comment.nvim'
     use 'ntpeters/vim-better-whitespace'
-    use 'Mofiqul/vscode.nvim'
+    use 'tpope/vim-fugitive'
     use {
         'lewis6991/gitsigns.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
@@ -78,7 +75,7 @@ packer.startup(function()
 end
 )
 
-vim.g.vscode_style = "dark"
+vim.g.vscode_style = 'dark'
 vim.cmd [[colorscheme nightfox]]
 
 require('gitsigns').setup()
@@ -87,11 +84,6 @@ require('marks').setup {
     signs = true,
     mappings = {}
 }
-
---require('registers').setup()
-require('Comment').setup()
-vim.keymap.set('n', '<C-/>', 'gc')
-vim.keymap.set('x', '<C-/>', 'gc')
 
 -- TODO:: install pylint
 -- requires pylint on path
@@ -103,18 +95,29 @@ nls.setup({
     },
 })
 
+vim.keymap.set('n', 'gi', vim.lsp.buf.incoming_calls)
+vim.keymap.set('n', 'go', vim.lsp.buf.outgoing_calls)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gc', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gh', vim.lsp.buf.hover)
+vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
+
+vim.keymap.set('n', 'ff', vim.lsp.buf.formatting)
+vim.keymap.set('v', 'ff', vim.lsp.buf.range_formatting)
+
 require('nvim-lsp-installer').setup({
     ensure_installed = {
-        "rust_analyzer",
-        "pyright",
-        "clangd",
-        "sumneko_lua",
+        'rust_analyzer',
+        'pyright',
+        'clangd',
+        'sumneko_lua',
+        'ocamllsp',
     },
     ui = {
         icons = {
-            server_installed = "✓",
-            server_pending = "➜",
-            server_uninstalled = "✗"
+            server_installed = '✓',
+            server_pending = '➜',
+            server_uninstalled = '✗'
         }
     }
 })
@@ -125,16 +128,16 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
             tools = {
                 inlay_hints = {
                     show_parameter_hints = false,
-                    parameter_hints_prefix = "",
-                    other_hints_prefix = "type::",
-                    highlight = "TSStructure",
+                    parameter_hints_prefix = '',
+                    other_hints_prefix = 'type::',
+                    highlight = 'TSStructure',
                 },
             },
             server = {
                 settings = {
-                    ["rust-analyzer"] = {
-                        checkOnSave = { command = "clippy" },
-                        diagnostics = { disabled = { "inactive-code" } }
+                    ['rust-analyzer'] = {
+                        checkOnSave = { command = 'clippy' },
+                        diagnostics = { disabled = { 'inactive-code' } }
                     }
                 }
             },
@@ -144,25 +147,30 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
     end
 end
 
-require("fidget").setup {}
+require('fidget').setup {}
 
 -- requires yapf on path
 require('yapf').setup({
-    style = os.getenv("HOME") .. '/.yapfrc',
+    style = os.getenv('HOME') .. '/.yapfrc',
 })
+
+vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
+vim.keymap.set('n', '<C-f>', require('telescope.builtin').live_grep)
+vim.keymap.set('n', '<C-b>', require('telescope.builtin').buffers)
+vim.keymap.set('n', 'tm', require('telescope.builtin').marks)
 
 -- requires `brew intsall brew install ripgrep`
 -- requires `brew install fd`
-local actions = require "telescope.actions"
+local actions = require 'telescope.actions'
 require('telescope').setup({
     defaults = {
-        file_ignore_patterns = { "/.git/", "^.git/", "^.clangd/", "/.clangd/" },
+        file_ignore_patterns = { '/.git/', '^.git/', '^.clangd/', '/.clangd/' },
         mappings = {
             i = {
-                ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                ['<C-f>'] = actions.send_selected_to_qflist + actions.open_qflist,
             },
             n = {
-                ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                ['<C-f>'] = actions.send_selected_to_qflist + actions.open_qflist,
             },
         },
     },
@@ -180,7 +188,7 @@ require('telescope').setup({
             fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
-            case_mode = "smart_case",
+            case_mode = 'smart_case',
         },
         lsp_handlers = {
             disable = {
@@ -201,8 +209,8 @@ require('telescope').load_extension('fzf')
 require('telescope').load_extension('lsp_handlers')
 
 require('nvim-treesitter.configs').setup({
-    -- A list of parser names, or "all"
-    ensure_installed = { "c", "lua", "rust" },
+    -- A list of parser names, or 'all'
+    ensure_installed = { 'c', 'lua', 'rust', 'cpp' },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
@@ -210,7 +218,7 @@ require('nvim-treesitter.configs').setup({
     highlight = {
         enable = true,
         -- NOTE: these are the names of the parsers and not the filetype.
-        disable = { "rust" },
+        disable = { 'rust' },
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -225,7 +233,7 @@ vim.opt.pumheight = 1
 cmp.setup({
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            vim.fn['vsnip#anonymous'](args.body)
         end,
     },
     window = {
@@ -234,8 +242,6 @@ cmp.setup({
         }
     },
     mapping = cmp.mapping.preset.insert({
-        --['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        --['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<Tab>'] = cmp.mapping.confirm({ select = true }),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),

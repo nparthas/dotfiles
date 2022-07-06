@@ -50,21 +50,6 @@ nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next({float=false})<CR>
 
 nnoremap <leader><Tab> :buffer<Space><C-z>
 
-nnoremap <C-p> :Telescope find_files<CR>
-nnoremap <C-f> :Telescope live_grep<CR>
-nnoremap <C-b> :Telescope buffers<CR>
-nnoremap <leader>m :Telescope marks<CR>
-
-nnoremap <leader>i :lua vim.lsp.buf.incoming_calls()<CR>
-nnoremap <leader>o :lua vim.lsp.buf.outgoing_calls()<CR>
-nnoremap <leader>c :lua vim.lsp.buf.declaration()<CR>
-nnoremap <leader>n :lua vim.lsp.buf.definition()<CR>
-nnoremap <leader>h :lua vim.lsp.buf.hover()<CR>
-nnoremap <leader>s :lua vim.lsp.buf.signature_help()<CR>
-
-nnoremap <leader>f :lua vim.lsp.buf.formatting()<CR>
-nnoremap ƒ         :lua vim.lsp.buf.format_selection()<CR>
-
 au FileType qf call AdjustWindowHeight(3, 10)
 function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
