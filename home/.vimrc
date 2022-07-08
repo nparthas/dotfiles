@@ -50,6 +50,8 @@ nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next({float=false})<CR>
 
 nnoremap <leader><Tab> :buffer<Space><C-z>
 
+nnoremap <leader>o :only<CR>
+
 au FileType qf call AdjustWindowHeight(3, 10)
 function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"

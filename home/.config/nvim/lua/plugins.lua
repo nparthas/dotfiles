@@ -33,6 +33,7 @@ packer.startup(function()
     use 'tversteeg/registers.nvim'
     use 'ntpeters/vim-better-whitespace'
     use 'chaoren/vim-wordmotion'
+    use 'wsdjeg/vim-fetch'
     use 'tpope/vim-fugitive'
     use {
         'lewis6991/gitsigns.nvim',
