@@ -30,7 +30,9 @@ packer.startup(function()
     }
     use 'EdenEast/nightfox.nvim'
     use 'chentoast/marks.nvim'
+    use 'tversteeg/registers.nvim'
     use 'ntpeters/vim-better-whitespace'
+    use 'chaoren/vim-wordmotion'
     use 'tpope/vim-fugitive'
     use {
         'lewis6991/gitsigns.nvim',
@@ -101,6 +103,7 @@ vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gc', vim.lsp.buf.declaration)
 vim.keymap.set('n', 'gh', vim.lsp.buf.hover)
 vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
 
 vim.keymap.set('n', 'ff', vim.lsp.buf.formatting)
 vim.keymap.set('v', 'ff', vim.lsp.buf.range_formatting)
@@ -156,8 +159,9 @@ require('yapf').setup({
 
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').live_grep)
-vim.keymap.set('n', '<C-b>', require('telescope.builtin').buffers)
 vim.keymap.set('n', 'tm', require('telescope.builtin').marks)
+vim.keymap.set('n', '<leader><Tab>', require('telescope.builtin').buffers)
+vim.keymap.set('n', 'tp', require('telescope.builtin').buffers)
 
 -- requires `brew intsall brew install ripgrep`
 -- requires `brew install fd`
@@ -180,7 +184,11 @@ require('telescope').setup({
             follow = true,
         },
         buffers = {
-            previewer = false
+            previewer = false,
+            theme = "ivy",
+            layout_config = {
+                height = 12
+            },
         }
     },
     extensions = {
@@ -196,7 +204,6 @@ require('telescope').setup({
                 ['textDocument/definition'] = true,
                 ['textDocument/implementation'] = true,
                 ['textDocument/typeDefinition'] = true,
-                ['textDocument/references'] = true,
                 ['textDocument/documentSymbol'] = true,
                 ['workspace/symbol'] = true,
                 ['textDocument/codeAction'] = true,
