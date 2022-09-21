@@ -32,7 +32,6 @@ packer.startup(function()
     use 'chentoast/marks.nvim'
     use 'tversteeg/registers.nvim'
     use 'ntpeters/vim-better-whitespace'
-    use 'chaoren/vim-wordmotion'
     use 'wsdjeg/vim-fetch'
     use 'tpope/vim-fugitive'
     use {
