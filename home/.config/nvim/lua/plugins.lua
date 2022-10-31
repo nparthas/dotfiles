@@ -40,10 +40,8 @@ packer.startup(function()
         tag = 'release'
     }
     use 'rust-lang/rust.vim'
-    use {
-        'simrat39/rust-tools.nvim',
-        branch = 'modularize_and_inlay_rewrite',
-    }
+    use 'simrat39/rust-tools.nvim'
+
     use {
         'amirali/yapf.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
@@ -163,7 +161,8 @@ vim.keymap.set('n', 'tm', require('telescope.builtin').marks)
 vim.keymap.set('n', '<leader><Tab>', require('telescope.builtin').buffers)
 vim.keymap.set('n', 'tp', require('telescope.builtin').buffers)
 
--- requires `brew intsall brew install ripgrep`
+-- requires `brew intsall fzf`
+-- requires `brew install ripgrep`
 -- requires `brew install fd`
 local actions = require 'telescope.actions'
 require('telescope').setup({
@@ -217,7 +216,7 @@ require('telescope').load_extension('lsp_handlers')
 
 require('nvim-treesitter.configs').setup({
     -- A list of parser names, or 'all'
-    ensure_installed = { 'c', 'lua', 'rust', 'cpp' },
+    ensure_installed = { 'c', 'lua', 'rust', 'cpp', 'python' },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
