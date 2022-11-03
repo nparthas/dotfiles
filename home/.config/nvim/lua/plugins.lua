@@ -34,11 +34,7 @@ packer.startup(function()
     use 'ntpeters/vim-better-whitespace'
     use 'wsdjeg/vim-fetch'
     use 'tpope/vim-fugitive'
-    use {
-        'lewis6991/gitsigns.nvim',
-        requires = { 'nvim-lua/plenary.nvim' },
-        tag = 'release'
-    }
+    use 'lewis6991/gitsigns.nvim'
     use 'rust-lang/rust.vim'
     use 'simrat39/rust-tools.nvim'
 
@@ -85,7 +81,6 @@ require('marks').setup {
     mappings = {}
 }
 
--- TODO:: install pylint
 -- requires pylint on path
 local nls = require('null-ls')
 nls.setup({
@@ -103,8 +98,8 @@ vim.keymap.set('n', 'gh', vim.lsp.buf.hover)
 vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
 vim.keymap.set('n', 'gr', vim.lsp.buf.references)
 
-vim.keymap.set('n', 'ff', vim.lsp.buf.formatting)
-vim.keymap.set('v', 'ff', vim.lsp.buf.range_formatting)
+vim.keymap.set('n', 'ff', vim.lsp.buf.format)
+vim.keymap.set('v', 'ff', vim.lsp.buf.format)
 
 require('nvim-lsp-installer').setup({
     ensure_installed = {
@@ -282,12 +277,7 @@ cmp.setup.cmdline(':', {
 })
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
---[[require('lspconfig')['rust_analyzer'].setup {
-    capabilities = capabilities
-}
---]]
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) do
     require('lspconfig')[server.name].setup({
         capabilites = capabilities
