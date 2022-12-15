@@ -162,7 +162,7 @@ vim.keymap.set('n', 'tp', require('telescope.builtin').buffers)
 local actions = require 'telescope.actions'
 require('telescope').setup({
     defaults = {
-        file_ignore_patterns = { '/.git/', '^.git/', '^.clangd/', '/.clangd/' },
+        file_ignore_patterns = { '/.git/', '^.git/', '^.clangd/', '/.clangd/', '^.cache/', '/.cache/' },
         mappings = {
             i = {
                 ['<C-f>'] = actions.send_selected_to_qflist + actions.open_qflist,
