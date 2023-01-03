@@ -29,6 +29,10 @@ packer.startup(function()
         requires = { 'nvim-lua/plenary.nvim' },
     }
     use 'EdenEast/nightfox.nvim'
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
     use 'chentoast/marks.nvim'
     use 'tversteeg/registers.nvim'
     use 'ntpeters/vim-better-whitespace'
@@ -68,18 +72,52 @@ packer.startup(function()
     use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/vim-vsnip'
 
+    use "lukas-reineke/indent-blankline.nvim"
+
+    use { 'sindrets/diffview.nvim',
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+        }
+    }
+
 end
 )
 
 vim.g.vscode_style = 'dark'
 vim.cmd [[colorscheme nightfox]]
+require('lualine').setup {
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = {
+            'branch',
+            'diff',
+            { 'diagnostics', sources = { 'nvim_lsp' }, symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }, }
+        },
+        lualine_c = { { 'filename', path = 3 } },
+        lualine_x = { { 'buffers', symbols = { alternate_file = '' } }, },
+        lualine_y = {
+            'filetype',
+            -- { 'fileformat', symbols = { unix = '[unix]', dos = '[dos]', mac = '[mac]' } },
+            'encoding',
+        },
+        lualine_z = { 'location', 'progress' }
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename' },
+        lualine_x = { 'location' },
+        lualine_y = {},
+        lualine_z = {}
+    },
+}
 
 require('gitsigns').setup()
-require('marks').setup {
+require('marks').setup({
     default_mappings = true,
     signs = true,
     mappings = {}
-}
+})
 
 -- requires pylint on path
 local nls = require('null-ls')
@@ -143,7 +181,11 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
     end
 end
 
-require('fidget').setup {}
+require('diffview').setup({
+    use_icons = false,
+})
+
+require('fidget').setup({})
 
 -- requires yapf on path
 require('yapf').setup({
