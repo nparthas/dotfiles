@@ -181,9 +181,7 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
     end
 end
 
-require('diffview').setup({
-    use_icons = false,
-})
+require('diffview').setup({})
 
 require('fidget').setup({})
 
