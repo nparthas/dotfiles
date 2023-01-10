@@ -28,9 +28,14 @@ packer.startup(function()
         'jose-elias-alvarez/null-ls.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
     }
+    use {
+        "SmiteshP/nvim-navic",
+        requires = "neovim/nvim-lspconfig"
+    }
+
     use 'EdenEast/nightfox.nvim'
     -- https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/JetBrainsMono.zip
-    use  'nvim-tree/nvim-web-devicons'
+    use 'nvim-tree/nvim-web-devicons'
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -85,6 +90,9 @@ packer.startup(function()
 end
 )
 
+local navic = require('nvim-navic')
+navic.setup({})
+
 vim.g.vscode_style = 'dark'
 vim.cmd [[colorscheme nightfox]]
 require('lualine').setup {
@@ -96,7 +104,7 @@ require('lualine').setup {
             { 'diagnostics', sources = { 'nvim_lsp' }, symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }, }
         },
         lualine_c = { { 'filename', path = 3 } },
-        lualine_x = { { 'buffers', symbols = { alternate_file = '' } }, },
+        lualine_x = {},
         lualine_y = {
             'filetype',
             -- { 'fileformat', symbols = { unix = '[unix]', dos = '[dos]', mac = '[mac]' } },
@@ -111,6 +119,10 @@ require('lualine').setup {
         lualine_x = { 'location' },
         lualine_y = {},
         lualine_z = {}
+    },
+    winbar = {
+        lualine_b = { { navic.get_location, cond = navic.is_available } },
+        lualine_y = { { 'buffers', symbols = { alternate_file = '' } }, },
     },
 }
 
@@ -272,7 +284,7 @@ require('nvim-treesitter.configs').setup({
     },
 })
 
-local cmp = require 'cmp'
+local cmp = require('cmp')
 vim.opt.pumheight = 1
 cmp.setup({
     snippet = {
@@ -320,9 +332,16 @@ cmp.setup.cmdline(':', {
 })
 
 -- Setup lspconfig.
+local on_attach = function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
+end
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) do
     require('lspconfig')[server.name].setup({
-        capabilites = capabilities
+        capabilites = capabilities,
+        on_attach = on_attach
     })
 end
