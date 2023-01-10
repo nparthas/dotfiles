@@ -29,6 +29,8 @@ packer.startup(function()
         requires = { 'nvim-lua/plenary.nvim' },
     }
     use 'EdenEast/nightfox.nvim'
+    -- https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/JetBrainsMono.zip
+    use  'nvim-tree/nvim-web-devicons'
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -181,6 +183,7 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
     end
 end
 
+require('nvim-web-devicons').setup({ default = true })
 require('diffview').setup({})
 
 require('fidget').setup({})
