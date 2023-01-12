@@ -51,11 +51,6 @@ packer.startup(function()
     use 'simrat39/rust-tools.nvim'
 
     use {
-        'amirali/yapf.nvim',
-        requires = { 'nvim-lua/plenary.nvim' },
-    }
-
-    use {
         'nvim-telescope/telescope.nvim',
         requires = {
             { 'nvim-lua/plenary.nvim' },
@@ -140,6 +135,7 @@ nls.setup({
     debounce = 150,
     sources = {
         nls.builtins.diagnostics.pylint,
+        nls.builtins.formatting.yapf.with({ extra_args = { '--style', os.getenv('HOME') .. '/.yapfrc' } }),
     },
 })
 
@@ -205,11 +201,6 @@ require('diffview').setup({})
 
 require('fidget').setup({})
 
--- requires yapf on path
-require('yapf').setup({
-    style = os.getenv('HOME') .. '/.yapfrc',
-})
-
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
 vim.keymap.set('n', '<C-f>', require('telescope.builtin').live_grep)
 vim.keymap.set('n', 'tm', require('telescope.builtin').marks)
@@ -269,7 +260,7 @@ require('telescope').load_extension('lsp_handlers')
 
 require('nvim-treesitter.configs').setup({
     -- A list of parser names, or 'all'
-    ensure_installed = { 'c', 'lua', 'rust', 'cpp', 'python' },
+    ensure_installed = { 'c', 'lua', 'rust', 'cpp', 'python', 'vim', 'help' },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
