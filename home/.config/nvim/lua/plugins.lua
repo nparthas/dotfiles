@@ -152,6 +152,9 @@ vim.keymap.set('n', 'ff', vim.lsp.buf.format)
 vim.keymap.set('v', 'ff', vim.lsp.buf.format)
 
 require('mason').setup({
+    ensure_installed = {
+        'yapf'
+    },
     ui = {
         icons = {
             server_installed = '✓',
