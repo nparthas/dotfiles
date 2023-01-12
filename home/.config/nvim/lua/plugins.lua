@@ -23,7 +23,8 @@ packer.startup(function()
 
     use 'wbthomason/packer.nvim'
     use 'neovim/nvim-lspconfig'
-    use 'williamboman/nvim-lsp-installer'
+    use "williamboman/mason.nvim"
+    use "williamboman/mason-lspconfig.nvim"
     use {
         'jose-elias-alvarez/null-ls.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
@@ -154,14 +155,7 @@ vim.keymap.set('n', 'gr', vim.lsp.buf.references)
 vim.keymap.set('n', 'ff', vim.lsp.buf.format)
 vim.keymap.set('v', 'ff', vim.lsp.buf.format)
 
-require('nvim-lsp-installer').setup({
-    ensure_installed = {
-        'rust_analyzer',
-        'pyright',
-        'clangd',
-        'sumneko_lua',
-        'ocamllsp',
-    },
+require('mason').setup({
     ui = {
         icons = {
             server_installed = '✓',
@@ -171,7 +165,17 @@ require('nvim-lsp-installer').setup({
     }
 })
 
-for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) do
+require('mason-lspconfig').setup {
+    ensure_installed = {
+        'rust_analyzer',
+        'pyright',
+        'clangd',
+        'sumneko_lua',
+        'ocamllsp',
+    },
+}
+
+for _, server in ipairs(require('mason-lspconfig').get_installed_servers()) do
     if server == 'rust_analyzer' then
         require('rust-tools').setup({
             tools = {
@@ -192,7 +196,7 @@ for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) d
             },
         })
     else
-        require('lspconfig')[server.name].setup({})
+        require('lspconfig')[server].setup({})
     end
 end
 
@@ -338,8 +342,8 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-for _, server in ipairs(require('nvim-lsp-installer').get_installed_servers()) do
-    require('lspconfig')[server.name].setup({
+for _, server in ipairs(require('mason-lspconfig').get_installed_servers()) do
+    require('lspconfig')[server].setup({
         capabilites = capabilities,
         on_attach = on_attach
     })
