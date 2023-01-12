@@ -147,7 +147,8 @@ vim.keymap.set('n', 'go', vim.lsp.buf.outgoing_calls)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'gc', vim.lsp.buf.declaration)
 vim.keymap.set('n', 'gh', vim.lsp.buf.hover)
-vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
+vim.keymap.set('n', 'gs', vim.lsp.buf.document_symbol)
+vim.keymap.set('n', 'gw', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 vim.keymap.set('n', 'gr', vim.lsp.buf.references)
 
 vim.keymap.set('n', 'ff', vim.lsp.buf.format)
@@ -253,8 +254,6 @@ require('telescope').setup({
                 ['textDocument/definition'] = true,
                 ['textDocument/implementation'] = true,
                 ['textDocument/typeDefinition'] = true,
-                ['textDocument/documentSymbol'] = true,
-                ['workspace/symbol'] = true,
                 ['textDocument/codeAction'] = true,
             },
         },
