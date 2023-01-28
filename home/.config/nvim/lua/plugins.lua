@@ -166,38 +166,12 @@ require('mason').setup({
 
 require('mason-lspconfig').setup {
     ensure_installed = {
-        'rust_analyzer',
         'pyright',
         'clangd',
         'sumneko_lua',
         'ocamllsp',
     },
 }
-
-for _, server in ipairs(require('mason-lspconfig').get_installed_servers()) do
-    if server == 'rust_analyzer' then
-        require('rust-tools').setup({
-            tools = {
-                inlay_hints = {
-                    show_parameter_hints = false,
-                    parameter_hints_prefix = '',
-                    other_hints_prefix = 'type::',
-                    highlight = 'TSStructure',
-                },
-            },
-            server = {
-                settings = {
-                    ['rust-analyzer'] = {
-                        checkOnSave = { command = 'clippy' },
-                        diagnostics = { disabled = { 'inactive-code' } }
-                    }
-                }
-            },
-        })
-    else
-        require('lspconfig')[server].setup({})
-    end
-end
 
 require('nvim-web-devicons').setup({ default = true })
 require('diffview').setup({})
@@ -342,3 +316,24 @@ for _, server in ipairs(require('mason-lspconfig').get_installed_servers()) do
         on_attach = on_attach
     })
 end
+
+--rustup component add rust-analyzer
+--requred to be run manually to have inlay hints
+require('rust-tools').setup({
+    tools = {
+        inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = '',
+            other_hints_prefix = 'type::',
+        },
+    },
+    server = {
+        cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+        settings = {
+            ['rust-analyzer'] = {
+                checkOnSave = { command = 'clippy' },
+                diagnostics = { disabled = { 'inactive-code' } }
+            }
+        }
+    },
+})
