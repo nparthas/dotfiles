@@ -62,6 +62,7 @@ packer.startup(function()
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+    use 'nvim-treesitter/nvim-treesitter-textobjects'
 
     use 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
@@ -85,6 +86,9 @@ packer.startup(function()
 
 end
 )
+
+vim.cmd("autocmd BufEnter * set formatoptions-=cro")
+vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
 
 local navic = require('nvim-navic')
 navic.setup({})
@@ -271,7 +275,7 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         ['<C-e>'] = cmp.mapping.abort(),
         ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
