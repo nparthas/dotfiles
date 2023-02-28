@@ -90,6 +90,8 @@ end
 vim.cmd("autocmd BufEnter * set formatoptions-=cro")
 vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
 
+vim.cmd("autocmd TermOpen * DisableWhitespace")
+
 local navic = require('nvim-navic')
 navic.setup({})
 
@@ -172,7 +174,7 @@ require('mason-lspconfig').setup {
     ensure_installed = {
         'pyright',
         'clangd',
-        'sumneko_lua',
+        'lua_ls',
         'ocamllsp',
     },
 }
