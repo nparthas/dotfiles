@@ -1,1 +1,1 @@
-3.4.15
+/Users/nparthas/Code/dotfiles/home/.config/iterm2/AppSupport/version.txt
