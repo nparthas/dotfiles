@@ -88,7 +88,18 @@ def copy_dotfiles(force: bool):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Copy dotfile symlinks to ~/. directory")
     parser.add_argument("--force", action="store_true", help="Do not ask when overwriting files")
+    parser.add_argument("--nix", action="store_true", help="Also bootstrap nix")
 
     args = parser.parse_args()
 
     copy_dotfiles(args.force)
+    if args.nix:
+        os.system("curl -L https://nixos.org/nix/install")
+        os.system(
+            "nix-channel "
+            "--add https://github.com/nix-community/home-manager/archive/master.tar.gz "
+            "home-manager"
+        )
+        os.system("nix-channel --update")
+        os.system("nix-shell '<home-manager>' -A install")
+        os.system("home-manager switch")

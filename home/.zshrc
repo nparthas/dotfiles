@@ -25,8 +25,13 @@ autoload -Uz compinit && compinit
 # alias python='/usr/local/bin/python3'
 
 # opam configuration
-[[ ! -r /Users/nparthas/.opam/opam-init/init.zsh ]] || source /Users/nparthas/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+[[ ! -r ~/.opam/opam-init/init.zsh ]] || source ~/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 # $(brew --prefix)/opt/fzf/install
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--multi'
+
+# terminal config via nix
+[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ] && source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+
+true
