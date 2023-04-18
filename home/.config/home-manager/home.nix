@@ -42,6 +42,11 @@
     coreutils
     tree
     fzf
+    nodejs
+    ocaml
+    opam
+    ccache
+    fd
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 
