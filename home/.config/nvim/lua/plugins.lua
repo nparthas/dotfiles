@@ -84,6 +84,7 @@ packer.startup(function()
         }
     }
 
+    use 'LnL7/vim-nix'
 end
 )
 
