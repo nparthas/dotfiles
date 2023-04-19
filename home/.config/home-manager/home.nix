@@ -41,6 +41,8 @@
     tmux
     tree-sitter
     iterm2
+    vscode
+    spotify
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 
@@ -76,7 +78,6 @@
   targets.darwin.defaults.NSGlobalDomain = {
     InitialKeyRepeat = 10;
     KeyRepeat = 1;
-    _HIHideMenuBar = false;
   };
 
   # Let Home Manager install and manage itself.
