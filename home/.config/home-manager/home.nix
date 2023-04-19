@@ -41,7 +41,6 @@
     tmux
     tree-sitter
     iterm2
-    vscode
     spotify
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
