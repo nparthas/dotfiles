@@ -100,6 +100,8 @@ if __name__ == "__main__":
             "--add https://github.com/nix-community/home-manager/archive/master.tar.gz "
             "home-manager"
         )
+        # os.system("nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer")
+        # os.system("./result/bin/darwin-installer")
         os.system("nix-channel --update")
         os.system("nix-shell '<home-manager>' -A install")
         os.system("home-manager switch")

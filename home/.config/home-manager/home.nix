@@ -73,6 +73,12 @@
     EDITOR = "nvim";
   };
 
+  targets.darwin.defaults.NSGlobalDomain = {
+    InitialKeyRepeat = 10;
+    KeyRepeat = 1;
+    _HIHideMenuBar = false;
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
