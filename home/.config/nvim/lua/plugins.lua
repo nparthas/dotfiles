@@ -85,6 +85,9 @@ packer.startup(function()
     }
 
     use 'LnL7/vim-nix'
+
+    use 'peterhoeg/vim-qml'
+    use 'ggandor/leap.nvim'
 end
 )
 
@@ -135,6 +138,8 @@ require('marks').setup({
     signs = true,
     mappings = {}
 })
+
+require('leap').add_default_mappings()
 
 -- requires pylint on path
 local nls = require('null-ls')
