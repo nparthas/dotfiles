@@ -88,6 +88,10 @@ packer.startup(function()
 
     use 'peterhoeg/vim-qml'
     use 'ggandor/leap.nvim'
+
+    use 'p00f/nvim-ts-rainbow'
+
+    use "akinsho/toggleterm.nvim"
 end
 )
 
@@ -141,6 +145,46 @@ require('marks').setup({
 
 require('leap').add_default_mappings()
 
+require("toggleterm").setup({ shading_factor = 5 })
+
+local tbi = require('telescope.builtin')
+local ttm = require("toggleterm.terminal").Terminal
+local tpy = ttm:new({ cmd = "python3", hidden = true, direction = 'float' })
+local tbc = ttm:new({ cmd = "bytes-cli", hidden = true, direction = 'float' })
+local tdy = ttm:new({ cmd = "", hidden = true, direction = 'float' }) -- dummy command, closes floating window
+local ttt = ttm:new({ hidden = true, direction = 'float' })
+
+local function termwrap(t)
+    return function() t:toggle() end
+end
+
+vim.keymap.set('n', '<C-p>', tbi.find_files)
+vim.keymap.set('n', '<C-f>', tbi.live_grep)
+vim.keymap.set('n', 'tp', tbi.buffers)
+
+vim.keymap.set('n', 'gi', vim.lsp.buf.incoming_calls)
+vim.keymap.set('n', 'go', vim.lsp.buf.outgoing_calls)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gc', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gh', vim.lsp.buf.hover)
+vim.keymap.set('n', 'gs', vim.lsp.buf.document_symbol)
+vim.keymap.set('n', 'gw', tbi.lsp_dynamic_workspace_symbols)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
+vim.keymap.set('n', 'gt', tbi.lsp_type_definitions)
+
+vim.keymap.set('n', 'gm', tbi.marks)
+vim.keymap.set('n', 'gp', tbi.registers)
+vim.keymap.set('n', 'ga', tbi.git_status)
+vim.keymap.set('n', 'gg', tbi.resume)
+
+vim.keymap.set('n', 'ff', vim.lsp.buf.format)
+vim.keymap.set('v', 'ff', vim.lsp.buf.format)
+
+vim.keymap.set('n', 'te', termwrap(tpy))
+vim.keymap.set('n', 'ts', termwrap(tbc))
+vim.keymap.set('n', 'tw', termwrap(tdy))
+vim.keymap.set('n', 'tt', termwrap(ttt))
+
 -- requires pylint on path
 local nls = require('null-ls')
 nls.setup({
@@ -150,18 +194,6 @@ nls.setup({
         nls.builtins.formatting.yapf.with({ extra_args = { '--style', os.getenv('HOME') .. '/.yapfrc' } }),
     },
 })
-
-vim.keymap.set('n', 'gi', vim.lsp.buf.incoming_calls)
-vim.keymap.set('n', 'go', vim.lsp.buf.outgoing_calls)
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-vim.keymap.set('n', 'gc', vim.lsp.buf.declaration)
-vim.keymap.set('n', 'gh', vim.lsp.buf.hover)
-vim.keymap.set('n', 'gs', vim.lsp.buf.document_symbol)
-vim.keymap.set('n', 'gw', require('telescope.builtin').lsp_dynamic_workspace_symbols)
-vim.keymap.set('n', 'gr', vim.lsp.buf.references)
-
-vim.keymap.set('n', 'ff', vim.lsp.buf.format)
-vim.keymap.set('v', 'ff', vim.lsp.buf.format)
 
 require('mason').setup({
     ensure_installed = {
@@ -190,12 +222,6 @@ require('diffview').setup({})
 
 require('fidget').setup({})
 
-vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files)
-vim.keymap.set('n', '<C-f>', require('telescope.builtin').live_grep)
-vim.keymap.set('n', 'tm', require('telescope.builtin').marks)
-vim.keymap.set('n', '<leader><Tab>', require('telescope.builtin').buffers)
-vim.keymap.set('n', 'tp', require('telescope.builtin').buffers)
-
 -- requires `brew intsall fzf`
 -- requires `brew install ripgrep`
 -- requires `brew install fd`
@@ -221,7 +247,7 @@ require('telescope').setup({
             previewer = false,
             theme = "ivy",
             layout_config = {
-                height = 12
+                height = 13
             },
         }
     },
@@ -265,6 +291,13 @@ require('nvim-treesitter.configs').setup({
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
+    indent = {
+        enable = true,
+        disable = { 'python' },
+    },
+    rainbow = {
+        enable = true,
+    }
 })
 
 local cmp = require('cmp')
