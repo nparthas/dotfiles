@@ -175,7 +175,7 @@ vim.keymap.set('n', 'gt', tbi.lsp_type_definitions)
 vim.keymap.set('n', 'gm', tbi.marks)
 vim.keymap.set('n', 'gp', tbi.registers)
 vim.keymap.set('n', 'ga', tbi.git_status)
-vim.keymap.set('n', 'gg', tbi.resume)
+vim.keymap.set('n', 'ge', tbi.resume)
 
 vim.keymap.set('n', 'ff', vim.lsp.buf.format)
 vim.keymap.set('v', 'ff', vim.lsp.buf.format)
