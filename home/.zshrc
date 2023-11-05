@@ -1,22 +1,20 @@
-# export 'PROMPT=%(?.%F{green}√.%F{red}?%?)%f %n@%m:%B%F{006}%~%f%b %# '
-export 'PROMPT=%(?.%F{green}√.%F{red}?%?)%f %B%F{006}%~%f%b %# '
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_CUSTOM="$HOME/.oh-my-zsh-custom"
+CASE_SENSITIVE="true"
+zstyle ':omz:update' mode reminder
 
-# git autocomplete
-zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
-fpath=(~/.zsh $fpath)
+ZSH_THEME="powerlevel10k/powerlevel10k"
+plugins=(git zsh-autosuggestions)
 
-zstyle ':completion:*:*:make:*' tag-order 'targets'
+source $ZSH/oh-my-zsh.sh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-autoload -Uz compinit && compinit
-
-# keep emacs navigation for terminal
-bindkey -e
-bindkey  "^[[H"   beginning-of-line
-bindkey  "^[[F"   end-of-line
-bindkey  "^[[3~"  delete-char
+path+=('/home/nparthas/.local/bin')
+export PATH
 
 alias logout="qdbus org.kde.ksmserver /KSMServer logout 1 3 3"
 
@@ -31,5 +29,3 @@ if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/key-bindings.zsh"
   source "$(fzf-share)/completion.zsh"
 fi
-
-true

@@ -1,3 +1,12 @@
 [submodule "home/.config/alacritty/alacritty-theme"]
 	path = home/.config/alacritty/alacritty-theme
 	url = https://github.com/alacritty/alacritty-theme.git
+[submodule "home/.oh-my-zsh"]
+	path = home/.oh-my-zsh
+	url = git@github.com:ohmyzsh/ohmyzsh.git
+[submodule "home/.oh-my-zsh-custom/themes/powerlevel10k"]
+	path = home/.oh-my-zsh-custom/themes/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k.git
+[submodule "home/.oh-my-zsh-custom/plugins/zsh-autosuggestions"]
+	path = home/.oh-my-zsh-custom/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions

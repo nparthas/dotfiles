@@ -58,6 +58,9 @@ def do_copy(full_src: str, full_dst: str, force: bool):
 
         os.symlink(full_src, full_dst)
 
+def fetch_submodules():
+    """initialize all the submodules so we can copy them over"""
+    os.system("git submodule update --init --recursive")
 
 def copy_dotfiles(force: bool):
     """copy all files from the 'home' directory to  ~/"""
