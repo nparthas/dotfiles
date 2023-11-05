@@ -3,7 +3,7 @@
 	url = https://github.com/alacritty/alacritty-theme.git
 [submodule "home/.oh-my-zsh"]
 	path = home/.oh-my-zsh
-	url = git@github.com:ohmyzsh/ohmyzsh.git
+	url = https://github.com/ohmyzsh/ohmyzsh.git
 [submodule "home/.oh-my-zsh-custom/themes/powerlevel10k"]
 	path = home/.oh-my-zsh-custom/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
