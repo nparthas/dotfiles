@@ -12,17 +12,13 @@ zstyle ':completion:*:*:make:*' tag-order 'targets'
 
 autoload -Uz compinit && compinit
 
-# use gcc
-# alias gcc='gcc-9'
-# alias cc='gcc-9'
-# alias g++='g++-9'
-# alias c++='c++-9'
+# keep emacs navigation for terminal
+bindkey -e
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
 
-# use brew python
-# alias pip3='/usr/local/bin/pip3'
-# alias pip='/usr/local/bin/pip3'
-# alias python3='/usr/local/bin/python3'
-# alias python='/usr/local/bin/python3'
+alias logout="qdbus org.kde.ksmserver /KSMServer logout 1 3 3"
 
 # opam configuration
 [[ ! -r ~/.opam/opam-init/init.zsh ]] || source ~/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
@@ -30,9 +26,6 @@ autoload -Uz compinit && compinit
 # $(brew --prefix)/opt/fzf/install
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--multi'
-
-# terminal config via nix
-[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ] && source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 
 if [ -n "${commands[fzf-share]}" ]; then
   source "$(fzf-share)/key-bindings.zsh"

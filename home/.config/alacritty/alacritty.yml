@@ -1,0 +1,21 @@
+import:
+  - ~/.config/alacritty/alacritty-theme/themes/alabaster_dark.yaml
+
+live_config_reload: true
+
+
+window:
+  opacity: 1.00
+  padding:
+    x: 5
+  dynamic_padding: false
+
+font:
+  normal:
+    #family: "JetBrainsMonoNL Nerd Font" # mac
+    family: "JetBrainsMono Nerd Font"    # arch
+  size: 12.5
+
+scrolling:
+  history: 100000
+
