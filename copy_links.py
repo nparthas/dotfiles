@@ -94,4 +94,5 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    fetch_submodules()
     copy_dotfiles(args.force)
