@@ -29,11 +29,6 @@ packer.startup(function()
         'jose-elias-alvarez/null-ls.nvim',
         requires = { 'nvim-lua/plenary.nvim' },
     }
-    use {
-        "SmiteshP/nvim-navic",
-        requires = "neovim/nvim-lspconfig"
-    }
-
     use 'EdenEast/nightfox.nvim'
     -- https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/JetBrainsMono.zip
     use 'nvim-tree/nvim-web-devicons'
@@ -100,9 +95,6 @@ vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
 
 vim.cmd("autocmd TermOpen * :DisableWhitespace")
 
-local navic = require('nvim-navic')
-navic.setup({})
-
 vim.g.vscode_style = 'dark'
 vim.cmd [[colorscheme nightfox]]
 require('lualine').setup {
@@ -129,10 +121,6 @@ require('lualine').setup {
         lualine_x = { 'location' },
         lualine_y = {},
         lualine_z = {}
-    },
-    winbar = {
-        lualine_b = { { navic.get_location, cond = navic.is_available } },
-        lualine_y = { { 'buffers', symbols = { alternate_file = '' } }, },
     },
 }
 
@@ -348,17 +336,10 @@ cmp.setup.cmdline(':', {
 })
 
 -- Setup lspconfig.
-local on_attach = function(client, bufnr)
-    if client.server_capabilities.documentSymbolProvider then
-        navic.attach(client, bufnr)
-    end
-end
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 for _, server in ipairs(require('mason-lspconfig').get_installed_servers()) do
     require('lspconfig')[server].setup({
         capabilites = capabilities,
-        on_attach = on_attach
     })
 end
 

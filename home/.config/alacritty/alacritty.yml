@@ -3,6 +3,8 @@ import:
 
 live_config_reload: true
 
+env:
+  TERM: xterm-256color
 
 window:
   opacity: 1.00
@@ -12,8 +14,7 @@ window:
 
 font:
   normal:
-    #family: "JetBrainsMonoNL Nerd Font" # mac
-    family: "JetBrainsMono Nerd Font"    # arch
+    family: "JetBrainsMono Nerd Font"
   size: 12.5
 
 scrolling:

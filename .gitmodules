@@ -10,3 +10,6 @@
 [submodule "home/.oh-my-zsh-custom/plugins/zsh-autosuggestions"]
 	path = home/.oh-my-zsh-custom/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "home/.tmux/plugins/tpm"]
+	path = home/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
