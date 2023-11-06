@@ -95,7 +95,6 @@ vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
 
 vim.cmd("autocmd TermOpen * :DisableWhitespace")
 
-vim.g.vscode_style = 'dark'
 vim.cmd [[colorscheme nightfox]]
 require('lualine').setup {
     sections = {
