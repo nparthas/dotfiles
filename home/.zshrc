@@ -13,6 +13,8 @@ plugins=(git zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+unsetopt share_history
+
 path+=('/home/nparthas/.local/bin')
 export PATH
 
