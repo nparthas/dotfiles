@@ -22,29 +22,24 @@ packer.startup(function()
     local use = use
 
     use 'wbthomason/packer.nvim'
-    use 'neovim/nvim-lspconfig'
-    use "williamboman/mason.nvim"
-    use "williamboman/mason-lspconfig.nvim"
-    use {
-        'jose-elias-alvarez/null-ls.nvim',
-        requires = { 'nvim-lua/plenary.nvim' },
-    }
+
     use 'EdenEast/nightfox.nvim'
+
     -- https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/JetBrainsMono.zip
     use 'nvim-tree/nvim-web-devicons'
-    use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
-    use 'chentoast/marks.nvim'
-    use 'tversteeg/registers.nvim'
+    use 'nvim-lualine/lualine.nvim'
+    use "lukas-reineke/indent-blankline.nvim"
+    use 'p00f/nvim-ts-rainbow'
+    use 'j-hui/fidget.nvim'
     use 'ntpeters/vim-better-whitespace'
-    use 'wsdjeg/vim-fetch'
-    use 'tpope/vim-fugitive'
     use 'lewis6991/gitsigns.nvim'
-    use 'rust-lang/rust.vim'
-    use 'simrat39/rust-tools.nvim'
 
+    use 'ggandor/leap.nvim'
+    use 'wsdjeg/vim-fetch'
+    use 'chentoast/marks.nvim'
+
+    use 'tpope/vim-fugitive'
+    use "akinsho/toggleterm.nvim"
     use {
         'nvim-telescope/telescope.nvim',
         requires = {
@@ -52,16 +47,25 @@ packer.startup(function()
             { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
         }
     }
+    use 'gbrlsnchs/telescope-lsp-handlers.nvim'
+    use 'nvim-tree/nvim-tree.lua'
+
+    use 'neovim/nvim-lspconfig'
+    use "williamboman/mason.nvim"
+    use "williamboman/mason-lspconfig.nvim"
+    use {
+        'jose-elias-alvarez/null-ls.nvim',
+        requires = { 'nvim-lua/plenary.nvim' },
+    }
+    use 'rust-lang/rust.vim'
+    use 'simrat39/rust-tools.nvim'
+
 
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
     use 'nvim-treesitter/nvim-treesitter-textobjects'
-
-    use 'gbrlsnchs/telescope-lsp-handlers.nvim'
-
-    use 'j-hui/fidget.nvim'
 
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
@@ -70,25 +74,23 @@ packer.startup(function()
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/vim-vsnip'
-
-    use "lukas-reineke/indent-blankline.nvim"
-
-    use { 'sindrets/diffview.nvim',
-        requires = {
-            { 'nvim-lua/plenary.nvim' },
-        }
-    }
-
-    use 'LnL7/vim-nix'
-
-    use 'peterhoeg/vim-qml'
-    use 'ggandor/leap.nvim'
-
-    use 'p00f/nvim-ts-rainbow'
-
-    use "akinsho/toggleterm.nvim"
 end
 )
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+local function nvim_tree_attach(bufnr)
+  local api = require('nvim-tree.api')
+  api.config.mappings.default_on_attach(bufnr)
+  vim.keymap.set('n', '?',     api.tree.toggle_help)
+end
+
+require("nvim-tree").setup {
+  on_attach = nvim_tree_attach,
+}
+
+vim.keymap.set('n', '<leader>t', require('nvim-tree.api').tree.toggle)
 
 vim.cmd("autocmd BufEnter * set formatoptions-=cro")
 vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
@@ -205,7 +207,6 @@ require('mason-lspconfig').setup {
 }
 
 require('nvim-web-devicons').setup({ default = true })
-require('diffview').setup({})
 
 require('fidget').setup({})
 
@@ -260,6 +261,9 @@ require('telescope').setup({
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('lsp_handlers')
 
+
+
+require('ibl').setup()
 require('nvim-treesitter.configs').setup({
     -- A list of parser names, or 'all'
     ensure_installed = { 'c', 'lua', 'rust', 'cpp', 'python', 'vim', 'vimdoc' },
