@@ -58,9 +58,23 @@ def do_copy(full_src: str, full_dst: str, force: bool):
 
         os.symlink(full_src, full_dst)
 
+
 def fetch_submodules():
     """initialize all the submodules so we can copy them over"""
     os.system("git submodule update --init --recursive")
+
+    # also deal with nvchad custom files via hard link
+    src = os.path.abspath("home/.config/nvim_custom")
+    dst = os.path.abspath("home/.config/nvim/lua/custom")
+
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        s = os.path.join(src, file)
+        d = os.path.join(dst, file)
+        if not os.path.exists(d):
+            print(f"ln {s} {d}")
+            os.system(f"ln {s} {d}")
+
 
 def copy_dotfiles(force: bool):
     """copy all files from the 'home' directory to  ~/"""

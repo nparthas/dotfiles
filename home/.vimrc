@@ -43,8 +43,6 @@ nnoremap <leader>g :!git diff %<CR>
 
 tnoremap <esc> <C-\><C-N>
 
-let g:rustfmt_autosave = 1
-
 nnoremap <silent> g[ <cmd>lua vim.diagnostic.goto_prev({float=false})<CR>
 nnoremap <silent> g] <cmd>lua vim.diagnostic.goto_next({float=false})<CR>
 

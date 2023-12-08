@@ -13,3 +13,6 @@
 [submodule "home/.tmux/plugins/tpm"]
 	path = home/.tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "home/.config/nvim"]
+	path = home/.config/nvim
+	url = https://github.com/NvChad/NvChad
