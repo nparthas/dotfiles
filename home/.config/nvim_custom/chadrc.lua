@@ -1,17 +1,24 @@
 local M = {}
 
 M.ui = {
-  theme = "nightfox",
-  theme_toggle = {},
+	theme = "nightfox",
+	theme_toggle = {},
 
-  hl_override = {
-    CursorLine = {
-      bg = "one_bg",
-    },
+  statusline = {
+    theme = "default",
+    separator_style = "block",
+    overriden_modules = nil,
   },
+
+
+	hl_override = {
+		CursorLine = {
+			bg = "one_bg",
+		},
+	},
 }
 
 M.plugins = "custom.plugins"
-M.mappings = require "custom.mappings"
+M.mappings = require("custom.mappings")
 
 return M
