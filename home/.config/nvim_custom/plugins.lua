@@ -125,23 +125,14 @@ local plugins = {
 			local cmp = require("cmp")
 			local conf = require("plugins.configs.cmp")
 
-			local custom = {
-				window = {
-					documentation = {
-						max_height = 0,
-					},
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-e>"] = cmp.mapping.abort(),
-					["<Tab>"] = cmp.mapping.confirm({ select = true }),
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
-				}),
-				experimental = {
-					ghost_text = true,
-				},
-			}
+			conf.window.documentation.max_height = 0
 
-			vim.tbl_deep_extend("force", conf, custom)
+			conf.mapping["<Tab>"] = cmp.mapping.confirm({ select = true })
+			conf.mapping["<S-Tab>"] = cmp.mapping.close()
+
+			conf.experimental = {
+				ghost_text = true,
+			}
 
 			return conf
 		end,
