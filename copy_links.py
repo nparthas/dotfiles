@@ -71,9 +71,12 @@ def fetch_submodules():
     for file in os.listdir(src):
         s = os.path.join(src, file)
         d = os.path.join(dst, file)
-        if not os.path.exists(d):
-            print(f"ln {s} {d}")
-            os.system(f"ln {s} {d}")
+        if os.path.exists(d):
+            print(f"rm {d}")
+            os.system(f"rm {d}")
+
+        print(f"ln {s} {d}")
+        os.system(f"ln {s} {d}")
 
 
 def copy_dotfiles(force: bool):

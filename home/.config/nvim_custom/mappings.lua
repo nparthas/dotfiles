@@ -18,8 +18,8 @@ M.AOne = {
 		["<C-p>"] = { "<cmd> Telescope find_files hidden=true follow=true <CR>", "Telescope files" },
 		["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Telescope fuzzy find" },
 		["<leader>w"] = { "<cmd> w <CR>", "Save file" },
-		["g["] = { "<cmd> <silent> lua vim.diagnostic.goto_prev({float=false}) <CR>", "Previous diagnostic" },
-		["g]"] = { "<cmd> <silent> lua vim.diagnostic.goto_next({float=false}) <CR>", "Next diagnostic" },
+		["g["] = { "<cmd> lua vim.diagnostic.goto_prev({float=false})<CR>", "Previous diagnostic" },
+		["g]"] = { "<cmd> lua vim.diagnostic.goto_next({float=false})<CR>", "Next diagnostic" },
 		["<leader>d"] = { "<cmd> w !diff % - <CR>", "Diff unsaved changes" },
 		["gi"] = {
 			function()
