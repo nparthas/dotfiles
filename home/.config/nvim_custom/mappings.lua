@@ -16,7 +16,7 @@ M.disabled = {
 M.AOne = {
 	n = {
 		["<C-p>"] = { "<cmd> Telescope find_files hidden=true follow=true <CR>", "Telescope files" },
-		["<C-f>"] = { "<cmd> Telescope live_grep <CR>", "Telescope fuzzy find" },
+		["<C-f>"] = { "<cmd> Telescope live_grep hidden=true follow=true <CR>", "Telescope fuzzy find" },
 		["<leader>w"] = { "<cmd> w <CR>", "Save file" },
 		["g["] = { "<cmd> lua vim.diagnostic.goto_prev({float=false})<CR>", "Previous diagnostic" },
 		["g]"] = { "<cmd> lua vim.diagnostic.goto_next({float=false})<CR>", "Next diagnostic" },

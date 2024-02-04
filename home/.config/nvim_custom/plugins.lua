@@ -128,6 +128,7 @@ local plugins = {
 			conf.window.documentation.max_height = 0
 
 			conf.mapping["<Tab>"] = cmp.mapping.confirm({ select = true })
+			conf.mapping["<CR>"] = cmp.mapping.abort()
 			conf.mapping["<S-Tab>"] = cmp.mapping.close()
 
 			conf.experimental = {
@@ -142,7 +143,7 @@ local plugins = {
 		"rust-lang/rust.vim",
 		ft = "rust",
 		init = function()
-			vim.g.rustfmt_autosave = 1
+			vim.g.rustfmt_autosave = 0
 		end,
 	},
 
