@@ -207,6 +207,11 @@ local plugins = {
 		"windwp/nvim-autopairs",
 		enabled = false,
 	},
+	{
+		"danymat/neogen",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		config = true,
+	},
 }
 
 return plugins

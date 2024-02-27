@@ -57,6 +57,12 @@ M.AOne = {
 			end,
 			"Telescope resume",
 		},
+		["<leader>ds"] = {
+			function()
+				require("neogen").generate()
+			end,
+			"Generate docstring",
+		},
 	},
 
 	v = {

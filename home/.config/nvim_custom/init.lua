@@ -2,6 +2,7 @@ vim.opt.hidden = true
 vim.opt.pumheight = 5
 vim.opt.incsearch = true
 vim.cmd("set whichwrap&")
+vim.cmd("set shiftwidth=4")
 
 local numbertogglegroup = vim.api.nvim_create_augroup("numbertoggle", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave" }, {

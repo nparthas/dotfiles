@@ -20,3 +20,5 @@ font:
 scrolling:
   history: 100000
 
+key_bindings:
+  - { key: Key6, mods: Control, chars: "\x1e" }
