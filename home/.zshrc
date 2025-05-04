@@ -27,7 +27,4 @@ alias logout="qdbus org.kde.ksmserver /KSMServer logout 1 3 3"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--multi'
 
-if [ -n "${commands[fzf-share]}" ]; then
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
-fi
+source <(fzf --zsh)

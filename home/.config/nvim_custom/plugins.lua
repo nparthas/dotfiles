@@ -3,24 +3,21 @@ local plugins = {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{
-				"jose-elias-alvarez/null-ls.nvim",
+				"stevearc/conform.nvim",
 				config = function()
-					local null_ls = require("null-ls")
+					local conform = require("conform")
 
-					local b = null_ls.builtins
-
-					local sources = {
-						b.formatting.stylua,
-						b.formatting.clang_format,
-						b.diagnostics.pylint,
-						b.formatting.yapf.with({ extra_args = { "--style", os.getenv("HOME") .. "/.yapfrc" } }),
-					}
-
-					null_ls.setup({
-						debounce = 150,
-						debug = true,
-						sources = sources,
+					conform.setup({
+						formatters_by_ft = {
+							lua = { "stylua" },
+							python = { "isort", "yapf" },
+							rust = { "rustfmt", lsp_format = "fallback" },
+							c = { "clang_format" },
+							cpp = { "clang_format" },
+						},
 					})
+
+					conform.formatters.yapf = { prepend_args = { "--style", os.getenv("HOME") .. "/.yapfrc" } }
 				end,
 			},
 		},
@@ -56,6 +53,8 @@ local plugins = {
 				"clang-format",
 				"yapf",
 				"stylua",
+				"isort",
+				"pylint",
 			},
 		},
 	},
@@ -175,6 +174,22 @@ local plugins = {
 			}
 
 			require("rust-tools").setup(conf)
+		end,
+	},
+
+	{
+		"echasnovski/mini.ai",
+		version = "*",
+		init = function()
+			require("mini.ai").setup()
+		end,
+	},
+
+	{
+		"echasnovski/mini.cursorword",
+		version = "*",
+		init = function()
+			require("mini.cursorword").setup()
 		end,
 	},
 

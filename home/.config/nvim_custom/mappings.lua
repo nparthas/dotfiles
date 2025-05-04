@@ -63,15 +63,21 @@ M.AOne = {
 			end,
 			"Generate docstring",
 		},
+		["<leader>fm"] = {
+			function()
+				require("conform").format({ async = true })
+			end,
+			"Formatting",
+		},
 	},
 
 	v = {
 
 		["<leader>fm"] = {
 			function()
-				vim.lsp.buf.format({ async = true })
+				require("conform").format({ async = true })
 			end,
-			"LSP formatting",
+			"Formatting",
 		},
 	},
 
