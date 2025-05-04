@@ -11,8 +11,8 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave" }, {
 	pattern = "*",
 	callback = function()
 		vim.opt.relativenumber = true
-		vim.api.nvim_set_hl(0, "MiniCursorWord", { underline = true })
-		vim.api.nvim_set_hl(0, "MiniCursorWordCurrent", { underline = true })
+		vim.api.nvim_set_hl(0, "MiniCursorword", { underline = true })
+		vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", { underline = true })
 	end,
 	group = numbertogglegroup,
 })
