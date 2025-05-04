@@ -20,6 +20,16 @@ local plugins = {
 					conform.formatters.yapf = { prepend_args = { "--style", os.getenv("HOME") .. "/.yapfrc" } }
 				end,
 			},
+
+			{
+				"mfussenegger/nvim-lint",
+				config = function()
+					local lint = require("lint")
+					lint.linters_by_ft = {
+						python = { "pylint" },
+					}
+				end,
+			},
 		},
 		config = function()
 			local configs = require("plugins.configs.lspconfig")

@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter" }, {
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	callback = function()
-		require("list").try_lint()
+		require("lint").try_lint()
 	end,
 })
 
